@@ -1,91 +1,27 @@
-<!doctype html>
-<html lang="en">
-    <head>
-		
-        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="">
-        <link rel="shortcut icon" href="/asset/guolin.png"/>
-        <link rel="canonical" href="http://guolinn.com/">
-        <link rel="alternate" type="application/rss+xml" title="谢帅" href="/atom.xml">
-        <title>假想的博客</title>
-        <meta name="description" content="{{meta_description}}">
-
-        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-    </head>
-    
-		<body class="home-template">
-	
-
-        <header id="header">
-            <a id="logo" href="/"><img src="/asset/guolin.png" alt="假想的博客" /></a>
-            <h1><a href="/">谢帅</a></h1>
-            <p></p>
-            <div id="follow-icons">
-                  <a href="/atom.xml"><i class="fa fa-rss-square fa-2x"></i></a>
-  </div>
-<h6><a href="/about">About</a></h6>
-        </header>
-
-        <main id="content">
-        
-<section id="{{id}}" class="{{post_class}}">
-  <h3 class="post-title">
-  <a href="/2017/11/13/第二次创建博客/">第二次创建博客</a>
-  
-  <span class="separator"> &middot; </span>
-  
-  November 13, 2017
-  
-  
-  </h3>
-</section>
-
-<section id="{{id}}" class="{{post_class}}">
-  <h3 class="post-title">
-  <a href="/2017/11/13/开博大吉/">这是博客？以前没用过，都不怎么了解。。。</a>
-  
-  <span class="separator"> &middot; </span>
-  
-  November 13, 2017
-  
-  
-  </h3>
-</section>
-
-<section id="{{id}}" class="{{post_class}}">
-  <h3 class="post-title">
-  <a href="/2017/11/13/hello-world/">Hello World</a>
-  
-  <span class="separator"> &middot; </span>
-  
-  November 13, 2017
-  
-  
-  </h3>
-</section>
-
-<nav class="pagination" role="pagination">
-  
-  <span class="page-number">Page 1 of 1</span>
-  
-</nav>
-
-        </main>
-        <footer id="footer">
-            <section id="footer-message">&copy; 2017 谢帅. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="guolin.github.io" target="_blank">Guo Lin</a>.</section>
-        </footer>
-    </body>
-</html>
-
-
+extends ./_partial/layout.pug
+block content
+  include ./_partial/page_header.pug
+  ul.post-list(style='max-width:'+ theme.content_width +'px')
+    each post in page.posts.data
+      li 
+        p.date #{time(post.date, 'LL')}
+        if post.title
+          h4.title
+            a(href=url_for(post.path)) #{post.title}
+          .excerpt !{post.excerpt}
+        else
+          .no-title !{post.content}
+        if post.photos && post.photos.length
+          a(href=url_for(post.path))
+            img.photo(src=post.photos[0])
+        ul.meta
+          li
+            i.icon.icon-author
+            | #{config.author}
+          li
+            i.icon.icon-clock
+            | #{parseInt(post.content ? post.content.length/900 : 0)} Minutes
+          li
+            i.icon.icon-category
+            | !{list_categories(post.categories)}
+  include ./_partial/pagination.pug
